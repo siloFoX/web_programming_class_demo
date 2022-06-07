@@ -1,0 +1,324 @@
+{% extends 'layout.html' %}
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script> -->
+
+{% block style %}
+<link rel="stylesheet" href="/css/reindex.css">
+<link rel="stylesheet" href="/css/devices.css">
+{% endblock %}
+
+{% block content %}
+	{% include "header.html" %}
+	<!-- <h1>Devices</h1> -->
+	<!-- <hr> -->
+	<!-- <h3 id="devList">Device List</h3> -->
+	<div class = "box-label">
+		<div class="device-box">
+			<div class="description-div">
+				<label class = "label-wrapper select-devices-label">Select Device</label>
+				<select id = "dropdown-device" name = "device" onchange="selectOnChange(this.value, {{dev.length}});">
+					{% for item in dev %}
+						{% if item.id == sel %}
+							<option value="{{item.id}}" selected>{{item.deviceDesc}}</option>
+						{% else %}
+							<option value="{{item.id}}">{{item.deviceDesc}}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
+			</div>
+
+
+			<div id="dev-containter">
+				<form id="del-dev-form" action="/devices/del" method="post" onsubmit="return confirm('Do you want to device delete?')">
+				<!-- <table id="deviceListTable" border="1"> -->
+
+					<div class="device-btn-wrapper">
+						<button id="adddev" type="button" class="fancy-btn">Add</button>
+						<input id="deldev" type="submit" class="fancy-btn" value="Delete">
+					</div>
+
+					<table id="deviceListTable">
+						<tr class = "first-line desktop">
+							<th><input hidden id="delAllSelect" type="checkbox"></th>
+							<th>No</th>
+							<th>Device Description</th>
+							<th>Status</th>
+							<th>IP Camera RTSP Address</th>
+							<th>Detection Model</th>
+							<th>Edit</th>
+							<th>Show</th>
+							<th>Run</th>
+						</tr>
+						{% for item in dev %}
+							<!-- <tr id = "row-{{item.id}}" class = "hidden-row" onmouseover = "showClassDescription();" onmouseout = "disappearClassDescription();"> -->
+							<tr id = "row-{{item.id}}" class = "hidden-row">
+								<td><input class = "desktop" id="delDev-{{item.id}}" class="checkBtn" type="checkbox" name="{{item.id}}" hidden></td>
+								<td><input class = "desktop" id="devID-{{item.id}}" type="text" value="{{item.id}}" size="3" readonly style="display: none;"></td>
+								<td class = "inline"><input id="devDesc-{{item.id}}" type="text" value="{{item.deviceDesc}}" readonly style="display: none;"></td>
+
+								{% if item.deviceStatus == 'Run' %}
+									<td><label class = "label-wrapper table-label-wrapper">Status</label>
+										<input class = "status-detect-bar status-bar" id="devStatus-{{item.id}}" type="text" value="{{item.deviceStatus}}" style="color:#4cc506; font-weight:bolder;" readonly></td>
+								{% elif item.deviceStatus == 'Loading...' %}
+									<td><label class = "label-wrapper table-label-wrapper">Status</label>
+										<input class = "status-detect-bar status-bar" id="devStatus-{{item.id}}" type="text" value="{{item.deviceStatus}}" style="color:orange; font-weight:bolder;" readonly></td>
+								{% else %}
+									<td><label class = "label-wrapper table-label-wrapper">Status</label>
+										<input class = "status-detect-bar status-bar" id="devStatus-{{item.id}}" type="text" value="{{item.deviceStatus}}" style="color:red; font-weight:bolder;" readonly></td>
+								{% endif %}
+								<td><label class = "label-wrapper table-label-wrapper">RTSP address</label>
+									<input class = "status-detect-bar rtsp-bar" id="camAdd-{{item.id}}" type="text" value="{{item.cameraAdd}}" size="50" readonly></td>
+								<td id = "upside-btn"><label class = "label-wrapper table-label-wrapper">Detection model</label>
+									<input class = "status-detect-bar" id="model-{{item.id}}" type="text" value="{{item.detectionModel}}" readonly></td>
+
+								<td class = "dev-inline-btn-left"><input class="fancy-btn" id="editDev-{{item.id}}" type="button" value="Edit" onclick="devEdit({{item.id}});"></td>
+								<td class = "dev-inline-btn"><button class="fancy-btn" type="button" onclick="location.href='/monitoring'">Show</button></td>
+								<td class = "dev-inline-btn">
+								{% if item.deviceStatus == 'Stop' %}
+									<input class="fancy-btn" id="runDev-{{item.id}}" type="button" value="Run" onclick="runDev({{item.id}});">
+								{% else %}
+									<input class="fancy-btn" id="stopDev-{{item.id}}" type="button" value="Stop" onclick="stopDev({{item.id}});">
+								{% endif %}
+								</td>
+							
+								
+							</tr>
+						{% endfor %}
+					</table>
+				</form>
+				
+				<div id = "class-description">
+					<!-- <p>class description with icons</p> -->
+					<div class = "descImg"><img id="cocoImg"  src="/images/coco.PNG"></div>
+					<div class = "descImg"><img id="maskImg" src="/images/mask.PNG"></div>
+					<div class = "descImg"><img id="ppeImg" src="/images/ppe.PNG"></div>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="edit-dev-containter" style="display: none;">
+			<form id="edit-dev-form" action="/devices/edit" method="post" onsubmit="return confirm('Do you want to device edit?')">
+			<!-- <table id="deviceListTable" border="1"> -->
+				<table id="deviceListTable">
+					<tr class = "first-line desktop">
+						<th>No</th>
+						<th>Device Description</th>
+						<th>IP Camera RTSP Address</th>
+						<th>Detection Model</th>
+					</tr>
+					<hr>
+					<tr>
+						<td><label>No</label><input id="edit-dev-id" name="editID" size="3" readonly style="display: none;"></td>
+						<td><label>Device Description</label><input id="edit-dev-desc" name="editDesc" type="text" name required></td>
+						<td><label>RTSP Address</label><input id="edit-dev-cam-add" name="editCamAdd" type="text" size="50" required></td>
+						<td>
+							<label>Detection Model</label>
+							<select id="edit-dev-model" name="editModel" required>
+								<option value="Default">Default</option>
+								<option value="Mask">Mask</option>
+								<option value="PPE">PPE</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<input type="text" id="sendStatusCheck" name="status" value="" readonly style="display: none;">
+				<br>
+				<button class="fancy-btn" id="editdev" type="submit">Save</button>
+				<button class="fancy-btn" id="editcancel" type="reset">Cancel</button>
+			</form>
+		</div>
+
+		<br>
+
+		<div id="add-dev-containter" style="display: none;">
+			<form id="add-dev-form" action="/devices/add" method="post" onsubmit="return confirm('Do you want to device add?')">
+				<br>
+				<hr>
+				<div class="add-dev-group">
+					<label id="add-dev-desc-label">Device Description</label>
+					<input id="add-dev-desc" type="text" placeholder="Device Description" name="devDesc" required>
+				</div>
+				<br>
+				<div class="add-dev-group">
+					<label id="add-dev-camadd-label">IP Camera RTSP Address</label>
+					<input id="add-dev-camadd" type="text" placeholder="rtsp://[ID]:[PW]@192.168.10.100:554" name="camAdd" size="50" required>
+				</div>
+				<br>
+
+				<div class="add-dev-group">
+					<label id="add-dev-model-label">Detection Model</label>
+					<select name="model" id="add-dev-model" required>
+						<option value="">-- Select Detection Model --</option>
+						<option value="Default">Default</option>
+						<option value="Mask">Mask</option>
+						<option value="PPE">PPE</option>
+					</select>
+				</div>
+				<br>
+				<div class="add-dev-group" style="display: none;">
+					<h1></h1>
+					<input id="add-dev-owner" type="text" name="devOwner" value={{user.userId}}>
+				</div>
+
+				<div class="add-dev-group">
+					<button id="add-dev-btn" type="submit" class="btn fancy-btn">Add</button>
+					<button id="add-dev-cancel-btn" type="reset" class="btn fancy-btn">Cancel</button>
+				</div>
+				<br>
+
+			</form>
+		</div>
+	</div>	
+	<hr>
+	{% include "footer.html" %}
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/js/devices.js"></script>
+
+<script>
+	selectOnChange("{{sel}}", 1);
+
+	if({{sel}} == 1) {
+		document.getElementById('cocoImg').style.display = "grid";
+	} else if({{sel}} == 2) {
+		document.getElementById('maskImg').style.display = "grid";
+	} else if({{sel}} == 3) {
+		document.getElementById('ppeImg').style.display = "grid";
+	}
+</script>
+
+<script>
+	document.getElementById('adddev').addEventListener('click', () => {
+		document.getElementById('add-dev-containter').style.display = "grid";
+	});
+</script>
+
+<script>
+	document.getElementById('add-dev-cancel-btn').addEventListener('click', () => {
+		// document.getElementById('add-dev-form').reset();
+		document.getElementById('add-dev-containter').style.display = "none";
+	});
+		// Value Reset
+</script>
+
+<script>
+	function devEdit(id) {
+		document.getElementById('dev-containter').style.display = "none";
+		document.getElementById('edit-dev-containter').style.display = "grid";
+		document.getElementById('devList').innerText = 'Edit Device';
+
+		document.getElementById('edit-dev-id').value = document.getElementById('devID-' + id).value;
+		document.getElementById('edit-dev-desc').value = document.getElementById('devDesc-' + id).value;
+		document.getElementById('edit-dev-cam-add').value = document.getElementById('camAdd-' + id).value;
+		document.getElementById('edit-dev-model').value = document.getElementById('model-' + id).value;
+
+		document.getElementById('sendStatusCheck').value = document.getElementById('devStatus-' + id).value;
+		// document.getElementById('editDev-'+id).value = 'Save';
+	}
+</script>
+
+<script>
+	document.getElementById('editcancel').addEventListener('click', () => {
+		document.getElementById('dev-containter').style.display = "grid";
+		document.getElementById('edit-dev-containter').style.display = "none";
+		document.getElementById('devList').innerText = 'Device List';
+	});
+</script>
+
+<script>
+	document.getElementById('delAllSelect').addEventListener('change', () => {
+		const list = document.querySelectorAll('input[class=checkBtn]');
+		for (let i = 0; i < list.length; ++i) {
+			list[i].checked = document.getElementById('delAllSelect').checked;
+		}
+	});
+</script>
+
+<script>
+	function runDev(id) {
+		let form = document.createElement('form');
+		form.action = '/devices';
+		form.method = 'POST';
+
+		form.innerHTML = '<input type="text" value="' + document.getElementById('devID-' + id).value + '" name="devID" style="display: none;">'
+			+ '<input type="text" value="' + document.getElementById('camAdd-' + id).value + '" name="camAdd" style="display: none;">'
+			+ '<input type="text" value="' + document.getElementById('model-' + id).value + '" name="model" style="display: none;">';
+
+		document.body.append(form);
+		
+		form.submit();
+	};
+</script>
+
+<script>
+	function stopDev(id) {
+		let form = document.createElement('form');
+		form.action = '/devices/stop';
+		form.method = 'POST';
+
+		form.innerHTML = '<input type="text" value="' + document.getElementById('devID-' + id).value + '" name="devID" style="display: none;">';
+
+		document.body.append(form);
+
+		form.submit();
+	}
+</script>
+
+<script>
+	let xhr = new XMLHttpRequest();
+	// we defined the xhr
+	xhr.onreadystatechange = function () {
+		if (this.readyState != 4) return;
+			if (this.status == 200) {
+				const res = JSON.parse(this.responseText);
+				// we get the returned data
+				// console.log(res);
+				if(res.data == 2){
+					for(i = 0; i<{{dev.length}}; ++i){
+						if(document.getElementById('devStatus-'+ (i+1)).value == 'Loading...'){
+							document.getElementById('devStatus-'+ (i+1)).style.color = '#4cc506';
+							document.getElementById('devStatus-'+ (i+1)).style.fontWeight = 'bolder';
+							document.getElementById('devStatus-'+ (i+1)).value = 'Run';
+						}
+					}
+				}
+			}
+	};
+	xhr.open('GET', "http://" + '{{ip}}' + ":8001/getrunstatus", true);
+	xhr.send();
+
+
+	let intervalFunc = setInterval(() => {
+		if('{{ip}}'.length >= 1){
+			let xhr = new XMLHttpRequest();
+			// we defined the xhr
+			xhr.onreadystatechange = function () {
+					if (this.readyState != 4) return;
+					if (this.status == 200) {
+							const res = JSON.parse(this.responseText);
+							// we get the returned data
+							// console.log(res);
+							if(res.data == 2){
+								for(i = 0; i<{{dev.length}}; ++i){
+									if(document.getElementById('devStatus-'+ (i+1)).value == 'Loading...'){
+										document.getElementById('devStatus-'+ (i+1)).style.color = '#4cc506';
+										document.getElementById('devStatus-'+ (i+1)).style.fontWeight = 'bolder';
+										document.getElementById('devStatus-'+ (i+1)).value = 'Run';
+									}
+								}
+								// const client = new WebSocket('ws://192.168.10.254:9999');
+								clearInterval(intervalFunc);
+							}
+					}
+					// end of state change: it can be after some time (async)
+			};
+			xhr.open('GET', "http://" + '{{ip}}' + ":8001/getrunstatus", true);
+			xhr.send();
+		}
+	}, 10000);
+</script>
+
+{% endblock %}

@@ -1,0 +1,233 @@
+
+/* 
+ * index.html, join.html CSS
+ * Author: SHInc
+ * Copyright ⓒ SHInc. All Right Reserved.
+ */
+
+/* PC */
+
+body {
+  background-color: transparent;
+}
+    
+#wrap {
+  width: 80%;
+  max-width: 450px;
+  height: 60%;
+  max-height: 330px;
+
+  margin: 100px auto;
+  margin-top : 18%;
+  margin-bottom : 16%;
+  /* display : inline-block; */
+
+  /* background-color: white; */
+  border-radius: 3%;
+  /* box-shadow: 3px 5px 10px #000808; */
+  background-color: rgb(248, 248, 250);
+  padding: 40px;
+}
+
+
+
+#loginlogo {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#subtitle {
+  color:darkgrey;
+  display: flex; 
+  justify-content: right; 
+  align-items: center; 
+  margin-top: 10px;
+}
+
+#userId, #password {
+  margin-top: 40px;
+  width:95%;
+  height:45px;
+  border-color:#bbb;
+  text-align:inherit;
+  border-radius: 5px;
+}
+
+input::-moz-input-placeholder {
+  /* color:#e65d5d; */
+  font-weight: bold;
+}
+
+input::-webkit-input-placeholder {
+  /* color:#e65d5d; */
+  font-weight: bold;
+}
+
+#password {
+  margin-top: 20px;
+}
+
+input {
+  padding-left:15px;
+}
+
+#sublink-group {
+  margin-top: 20px;
+  display: flex; 
+  justify-content: space-around;
+}
+
+.login-group {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+}
+
+.btn {
+  width:100%;
+  height:40px;
+  border:0px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  /* background-color: #FF984C; */
+  background-color: #F9C7A3;
+  /* background: linear-gradient(to right, #FCB179, #FF984C, #FD6B00); */
+  /* background: linear-gradient(to right, yellow, Orange); */
+  /* background: linear-gradient(45deg, Violet, Orange); */
+  margin-top: 30px;
+  cursor:pointer;
+  transition-duration: 0.8s;
+  transition-property: background-color;
+}
+
+.btn:hover {
+  background-color: #FD6B00;
+}
+
+.hrwarp {
+  display: flex;
+  align-items: center;
+}
+
+#forgotpw {
+  margin-top:30px;
+  margin-bottom:20px;
+  color:#FD6B00;
+  font-weight:bold;
+  display: flex; 
+  justify-content: right; 
+  align-items: center;
+  cursor:pointer;
+}
+
+#add-dev-camadd-label {
+  margin-top:90px;
+  margin-bottom:20px;
+  color:#FD6B00;
+  font-weight:bold;
+  display: flex; 
+  justify-content: left; 
+  align-items: center;
+  cursor:pointer;
+}
+
+#send-mail-form {
+  display: none;
+}
+
+#input-email {
+  /* margin-top: 80px; */
+  width:95%;
+  height:45px;
+  border-color:#bbb;
+  text-align:inherit;
+  border-radius: 5px;
+}
+
+#emailBtnContainer {
+  display: flex;
+  justify-content: center;
+}
+
+#send-email {
+  width:40%;
+  height:40px;
+  border:0px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  /* background-color: #FF984C; */
+  background-color: #F9C7A3;
+  /* background: linear-gradient(to right, #FCB179, #FF984C, #FD6B00); */
+  /* background: linear-gradient(to right, yellow, Orange); */
+  /* background: linear-gradient(45deg, Violet, Orange); */
+  margin-top: 20px;
+  cursor:pointer;
+  transition-duration: 0.8s;
+  transition-property: background-color;
+}
+
+#send-email-cancel {
+  width:40%;
+  height:40px;
+  border:0px;
+  border-radius: 5px;
+  margin-left: 20px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  /* background-color: #FF984C; */
+  background-color: #fc9c8f;
+  /* background: linear-gradient(to right, #FCB179, #FF984C, #FD6B00); */
+  /* background: linear-gradient(to right, yellow, Orange); */
+  /* background: linear-gradient(45deg, Violet, Orange); */
+  margin-top: 20px;
+  cursor:pointer;
+  transition-duration: 0.8s;
+  transition-property: background-color;
+}
+
+#send-email:hover {
+  background-color: #FD6B00;
+}
+
+#send-email-cancel:hover {
+  background-color: #f84640;
+}
+
+
+.bar {
+  flex: auto;
+  border: none;
+  border-top:3px dashed #bbb;
+  height: 0px;
+  /* background-color: #000808; */
+}
+
+.txt {
+  padding: 0 10px;
+  color: #bbb;
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+#copyright {
+  color :rgb(248, 248, 250);
+  padding: 0 4.166666666666667%;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  margin-top: 300px; 
+  font-size: 12px;
+}
+  
+#join-copyright {
+  margin-top: 57px; 
+}
+
+

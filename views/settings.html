@@ -1,0 +1,129 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+	{% include "header.html" %}
+	<link rel="stylesheet" href="/css/reindex.css">
+	<link rel="stylesheet" href="/css/settings.css">
+	<!-- <h1>Settings</h1> -->
+	<!-- <hr> -->
+	<div class="box-label">
+		
+		<hr>
+		<p class="select-devices-label">Device IP Address Setting</p>
+		<div id="addrInfo" class = "edit-form-wrapper">
+			<div id="addrInfo_method" class = "edit-group">
+				<label id="addInfo_method_label">Method</label>
+				<div class = "input-wrapper">
+				<input id="addInfo_method_value" type="text" value="{{netmethod}}" readonly>
+				</div>
+			</div>
+			<div id="addrInfo_ip" class = "edit-group">
+				<label id="addInfo_ip_label">IP Address</label>
+				<div class = "input-wrapper">
+				<input id="addInfo_ip_value" type="text" value="{{ip}}" readonly>
+				</div>
+			</div>
+			<div id="addrInfo_subnet" class = "edit-group">
+				<label id="addInfo_subnet_label">Subnet Mask</label>
+				<div class = "input-wrapper">
+				<input id="addInfo_subnet_value" type="text" value="{{sub}}" readonly>
+				</div>
+			</div>
+			<div id="addrInfo_gw" class = "edit-group">
+				<label id="addInfo_gw_label">Gateway</label>
+				<div class = "input-wrapper">
+				<input id="addInfo_gw_value" type="text" value="{{gw}}" readonly>
+				</div>
+			</div>
+			<div class="addr_edit" class = "edit-group">
+				<button id="addr_edit_btn" type="button" class="btn fancy-btn">Edit</button>
+			</div>
+		</div>
+	
+		<form id="addr_edit_form" action="/settings/netchange" method="post" style="display: none;" onsubmit="return confirm('Do you want to device network edit?')">
+			<h4>Be sure to reboot after setting.</h4>
+			<div id="addr_Edit_Info_method">
+				<label id="addr_Edit_Info_method_label">Method</label>
+				<select name="comm_method" id="addr_Edit_Info_method_value" required>
+					<option value="DHCP">DHCP</option>
+					<option value="STATIC">Static</option>
+				</select>
+				
+				<div id="static_info" style="display: none;">
+					<div id="addr_Edit_Info_ip">
+						<label id="add_Edit_Info_ip_label">IP Address</label>
+						<input id="add_Edit_Info_ip_value" type="text" name="ip" placeholder="IP Address">
+					</div>
+					<div id="addr_Edit_Info_subnet">
+						<label id="add_Edit_Info_subnet_label">Subnet Mask</label>
+						<input id="add_Edit_Info_subnet_value" type="text" name="sub" placeholder="Subnet Mask">
+					</div>
+					<div id="addr_Edit_Info_gw">
+						<label id="add_Edit_Info_gw_label">Gateway</label>
+						<input id="add_Edit_Info_gw_value" type="text" name="gw" placeholder="Gateway">
+					</div>
+					<div id="addr_Edit_Info_dns">
+						<label id="add_Edit_Info_dns_label">DNS Server</label>
+						<input id="add_Edit_Info_dns_value" type="text" name="dns" placeholder="DNS Server">
+					</div>
+				</div>
+				<div class="addr_Edit">
+					<button id="addr_Edit_Btn" type="submit" class="btn fancy-btn">Done</button>
+					<button id="addr_Edit_Cancel-Btn" type="reset" class="btn fancy-btn">Cancel</button>
+				</div>
+			</div>
+		
+		</form>
+		<hr>
+
+		<p class="select-devices-label">Edit Password</p>
+
+		<form class = "edit-form-wrapper" id="edit-form" action="/settings/pwchange" method="post">
+			<div class="edit-group">
+				<label id="edit-email-label">Email</label>
+				<div class = "input-wrapper">
+				<input id="edit-email" type="email" placeholder="Email Address." name="email" required>
+			</div>
+			</div>
+			<div class="edit-group">
+				<label id="edit-password-label">Password</label>
+				<div class = "input-wrapper">
+				<input id="edit-password" type="password" placeholder="Edit Password" name="password" required>
+			</div>
+			</div>
+			<div class="edit-group">
+				<label id="edit-repeat-password-label">Repeat</label>
+				<div class = "input-wrapper">
+				<input id="edit-repeat-password" type="password" placeholder="Repeat Edit Password" name="repeat_password" required>
+			</div>
+			</div>
+		
+			
+
+			<div class="edit-group">
+				<button id="edit-btn" type="submit" class="btn fancy-btn">Done</button>
+				<!-- <button id="edit-btn" type="button" onclick="pwCheck()" class="btn">Done</button> -->
+				<button id="edit-btn" type="reset" class="btn fancy-btn">Cancel</button>
+			</div>
+		</form>
+	</div>
+	<hr>
+	{% include "footer.html" %}
+{% endblock %}
+
+{% block script %}
+<script>
+	window.onload = function(){
+		if({{status}} == 1){
+			alert('Please enter a password of at least 8 digits.');
+		}
+
+		if({{status}} == 2){
+			alert('The input value is different.');
+		}
+	}	
+</script>
+{% endblock %}

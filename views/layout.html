@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+	<title>{{title}}</title>
+	{% block style %}
+  {% endblock %}
+</head>
+
+<body>
+  <div id="wrap">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+	{% block script %}
+	{% endblock %}
+</body>
+
+</html>

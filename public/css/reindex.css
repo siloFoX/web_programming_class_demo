@@ -1,0 +1,188 @@
+@font-face {
+    font-family: 'NanumGothic';
+    src: url('/webfont/NanumGothic.eot');
+    src: url('/webfont/NanumGothic.woff') format('woff');
+}
+
+html {
+    /* background-color: black; */
+    font-family: NanumGothic;
+}
+
+body {
+    margin : 0px;
+}
+
+ul {
+    padding : 0px;
+    /* vertical-align: bottom; */
+}
+
+.select-devices-label {
+    font-weight: 900;
+}
+
+.fancy-btn {
+    /******************************/
+    /* for button and input tages */
+    /******************************/
+
+    border-color :rgb(168, 168, 168);
+}
+
+.logo-grid {
+    /* background-color: #404E67; */
+    padding : 10px;
+    padding-bottom : 0px;
+    display : grid;
+    grid-template-columns: 50% 50%;
+}
+
+#loginlogo {
+    /* background-color: white; */
+    width : 300px;
+}
+
+.first-bar {
+    margin-top : 7px;
+    text-align: right;
+    /* vertical-align: bottom; */
+}
+
+#welcome {
+    display : block;
+}
+
+h1 {
+    font-size : 1em;
+    display : inline-block;
+}
+
+.logout-btn {
+    margin-left: 10px;
+    margin-right : 10px;
+    display : inline-block;
+    text-decoration: none;
+}
+
+.btn {
+    text-decoration: none;
+}
+
+.ul-wrapper {
+    background-color: #404E67;
+    height : 50px;
+    /* margin-bottom : 20px; */
+}
+
+.li-wrapper {
+    padding-top : 15px;
+    padding-left : 10px;
+    list-style : none;
+    display : inline-block;
+    /* margin-bottom : 20px; */
+}
+
+.a-wrapper {
+    transition-duration: 0.5s;
+    color: rgb(168, 168, 168);
+    text-decoration: none;
+}
+
+.a-wrapper:hover {
+    transition-duration: 0.5s;
+    color :white;
+}
+
+
+
+
+.icon-img {
+    width : 20px;
+    margin-left : 20px;
+    filter: invert(66%)
+     sepia(70%) 
+     saturate(0%) 
+     hue-rotate(163deg) 
+     brightness(89%) 
+     contrast(92%);
+}
+
+td {
+    display : block;
+}
+
+.inline-btn {
+    display : inline-block;
+    /* margin-bottom: 30px; */
+}
+
+.inline {
+    display : inline-block;
+}
+
+@media (min-width:531px) {
+    .mobile {
+        display : none;
+    }
+
+    #welcome-user-message {
+        position : absolute;
+        top : 35px;
+        left : 330px;
+    }
+}
+
+@media (max-width:530px) {
+    .desktop {
+        display : none;
+    }
+
+    .login-logo {
+        height : 45px;
+    }
+
+    .logo-grid {
+        padding-bottom: 0px;
+    }
+
+    .ul-wrapper {
+        /* margin-bottom : 20px; */
+        margin : 0px;
+        /* display : grid; */
+    }
+
+    ul {
+        margin : 0px;
+        display : grid;
+        grid-template-columns: auto auto auto auto;
+    }
+
+    .li-wrapper {
+        padding-top : 15px;
+    }
+
+    .icon-img {
+        width : 20px;
+        margin-left : 20px;
+        filter: invert(66%)
+         sepia(70%) 
+         saturate(0%) 
+         hue-rotate(163deg) 
+         brightness(89%) 
+         contrast(92%);
+    }
+
+    td {
+        display : block;
+    }
+
+    .inline-btn {
+        display : inline-block;
+        /* margin-bottom: 50px; */
+    }
+
+    .inline {
+        display : inline-block;
+    }
+}

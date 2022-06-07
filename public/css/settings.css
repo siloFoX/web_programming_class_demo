@@ -1,0 +1,48 @@
+#settings {
+    transition-duration : 0.5s;
+    color : rgb(255, 255, 255);
+}
+
+#settings:hover {
+    transition-duration: 0.5s;
+    color : rgb(168, 168, 168);
+}
+
+#settings-icon {
+    transition-duration : 0.5s;
+    filter: invert(100%) sepia(19%) saturate(0%) hue-rotate(356deg)
+    brightness(111%) contrast(100%);
+}
+
+.edit-form-wrapper {
+    width : 300px;
+    margin-left : 20px;
+}
+
+.edit-group {
+    display : grid;
+    grid-template-columns: auto auto;
+}
+
+.input-wrapper {
+    text-align: right;
+}
+
+input {
+    display : inline-block;
+}
+
+.btn {
+    margin-top : 20px;
+    width : 110px;
+}
+
+.box-label {
+    padding : 5px;
+    /* padding-top : 30px; */
+}
+
+p {
+    margin : 0px;
+    margin-bottom: 25px;
+}
